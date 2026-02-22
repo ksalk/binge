@@ -77,9 +77,38 @@ fn save_series(result: &SearchResult) -> Result<Series> {
     Ok(series)
 }
 
+const AUTO_ADD_MIN_SCORE: f64 = 0.9;
+const AUTO_ADD_GAP: f64 = 0.2;
+
+fn should_auto_add(results: &[SearchResult]) -> bool {
+    if results.is_empty() {
+        return false;
+    }
+
+    let best = results[0].score;
+    if best <= AUTO_ADD_MIN_SCORE {
+        return false;
+    }
+
+    match results.get(1) {
+        None => true,
+        Some(second) => best - second.score >= AUTO_ADD_GAP,
+    }
+}
+
 pub fn execute(name: &str) -> Result<()> {
     let results = fetch_results(name)?;
     let display_results: Vec<_> = results.into_iter().take(5).collect();
+
+    if should_auto_add(&display_results) {
+        let series = save_series(&display_results[0])?;
+        println!(
+            "Auto-added (score {:.2}): {} [{}]",
+            display_results[0].score, series.title, series.status
+        );
+        println!("ID: {}", series.id);
+        return Ok(());
+    }
 
     display_table(&display_results);
 
