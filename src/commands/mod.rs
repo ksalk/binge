@@ -1,3 +1,6 @@
+mod add;
 mod search;
+mod tvmaze;
 
-pub use search::execute;
+pub use add::execute as add;
+pub use search::execute as search;

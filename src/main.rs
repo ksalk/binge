@@ -13,13 +13,15 @@ struct Cli {
 #[derive(Subcommand)]
 enum Commands {
     Search { name: String },
+    Add { name: String },
 }
 
 fn main() -> Result<()> {
     let cli = Cli::parse();
 
     match cli.command {
-        Commands::Search { name } => commands::execute(&name)?,
+        Commands::Search { name } => commands::search(&name)?,
+        Commands::Add { name } => commands::add(&name)?,
     }
 
     Ok(())
