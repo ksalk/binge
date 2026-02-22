@@ -33,3 +33,8 @@ pub fn insert(conn: &Connection, series: &Series) -> Result<()> {
     )?;
     Ok(())
 }
+
+pub fn clear(conn: &Connection) -> Result<()> {
+    conn.execute("DELETE FROM series", [])?;
+    Ok(())
+}

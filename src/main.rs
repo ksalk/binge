@@ -15,6 +15,7 @@ struct Cli {
 enum Commands {
     Search { name: String },
     Add { name: String },
+    Clear,
 }
 
 fn main() -> Result<()> {
@@ -23,6 +24,7 @@ fn main() -> Result<()> {
     match cli.command {
         Commands::Search { name } => commands::search(&name)?,
         Commands::Add { name } => commands::add(&name)?,
+        Commands::Clear => commands::clear()?,
     }
 
     Ok(())
