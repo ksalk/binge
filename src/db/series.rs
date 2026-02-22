@@ -38,3 +38,22 @@ pub fn clear(conn: &Connection) -> Result<()> {
     conn.execute("DELETE FROM series", [])?;
     Ok(())
 }
+
+pub fn get_all(conn: &Connection) -> Result<Vec<Series>> {
+    let mut stmt = conn.prepare("SELECT id, title, alias, status FROM series")?;
+    let rows = stmt.query_map([], |row| {
+        let id_str: String = row.get(0)?;
+        Ok(Series {
+            id: Uuid::parse_str(&id_str).unwrap(),
+            title: row.get(1)?,
+            alias: row.get(2)?,
+            status: row.get(3)?,
+        })
+    })?;
+
+    let mut series = Vec::new();
+    for row in rows {
+        series.push(row?);
+    }
+    Ok(series)
+}
