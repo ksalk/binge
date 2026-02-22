@@ -106,7 +106,9 @@ pub fn execute(name: &str) -> Result<()> {
             "Auto-added (score {:.2}): {} [{}]",
             display_results[0].score, series.title, series.status
         );
-        println!("ID: {}", series.id);
+        
+        println!("Adding {} to watchlist...", series.title);
+
         return Ok(());
     }
 
