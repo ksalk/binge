@@ -29,9 +29,16 @@ fn init_tables(conn: &Connection) -> Result<()> {
             id TEXT PRIMARY KEY,
             title TEXT NOT NULL,
             alias TEXT,
-            status TEXT NOT NULL
+            status TEXT NOT NULL,
+            episodes_schedule TEXT
         );
         "#,
     )?;
+    conn.execute_batch(
+        r#"
+        ALTER TABLE series ADD COLUMN episodes_schedule TEXT;
+        "#,
+    )
+    .ok();
     Ok(())
 }

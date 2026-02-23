@@ -1,5 +1,7 @@
-mod api;
+mod commands;
+mod db;
 
+use anyhow::Result;
 use clap::{Parser, Subcommand};
 
 #[derive(Parser)]
@@ -11,19 +13,21 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Commands {
+    Search { name: String },
     Add { name: String },
     List,
     Clear,
 }
 
-fn main() -> Result<(), String> {
+fn main() -> Result<()> {
     let cli = Cli::parse();
 
     match cli.command {
-        Commands::Add { name } => api::search(&name),
-        Commands::List => println!("list command"),
-        Commands::Clear => println!("clear command"),
+        Commands::Search { name } => commands::search(&name)?,
+        Commands::Add { name } => commands::add(&name)?,
+        Commands::List => commands::list()?,
+        Commands::Clear => commands::clear()?,
     }
 
-    return Ok(());
+    Ok(())
 }
