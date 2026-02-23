@@ -1,3 +1,4 @@
+mod commands;
 mod api;
 
 use clap::{Parser, Subcommand};
@@ -20,7 +21,7 @@ fn main() -> Result<(), String> {
     let cli = Cli::parse();
 
     match cli.command {
-        Commands::Add { name } => api::search(&name),
+        Commands::Add { name } => commands::add(&name),
         Commands::List => println!("list command"),
         Commands::Clear => println!("clear command"),
     };
