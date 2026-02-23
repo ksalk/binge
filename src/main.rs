@@ -23,7 +23,7 @@ fn main() -> Result<(), String> {
         Commands::Add { name } => api::search(&name),
         Commands::List => println!("list command"),
         Commands::Clear => println!("clear command"),
-    }
+    };
 
     return Ok(());
 }

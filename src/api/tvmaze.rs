@@ -15,7 +15,8 @@ pub struct Show {
     pub status: String,
 }
 
-pub fn search(name: &str) {
+pub fn search(name: &str) //-> Result<Vec<SearchResult>, String> 
+{
     let base_url = "https://api.tvmaze.com";
     let search_endpoint = format!("{}/search/shows?q={name}", base_url);
 
@@ -25,4 +26,8 @@ pub fn search(name: &str) {
         .text().expect("Error during getting HTTP response");
 
     println!("Response: {}", response);
+
+    let _found_series: Vec<SearchResult> = serde_json::from_str(&response).expect("Error during JSON deserialization");
+
+    //Ok(found_series)
 }
